@@ -2,10 +2,9 @@ import { useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { MaterialIcon } from "./MaterialIcon";
 import { HistoryDrawer } from "./HistoryDrawer";
+import { ProfileModal } from "./ProfileModal";
+import { useUserProfile, useProfileModalControl } from "@/lib/user-store";
 import { cn } from "@/lib/utils";
-
-const AVATAR =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBeUQMDw7Un_aXIBSrsga5pE7-6n4yjpr-Etoc47EClU1GECXXSpjBf5zwBrCqvlX-BbH8ViCN7aKIrddZEpg9WHzDVqpDjBu0iCdEz6BBXOqsIKm2ft9KI1bQTQqFx72PBwMPhUSiZz1MOXGUxxi3GNyTTRGMkKV-N93cZUGizT-yVofmfheCoX0GKRIXfJYOwx26PCleAmokzpbPFijj61XntusbT4KfGej4VFyPFO_gYh9bYzA";
 
 export function AppShell({
   children,
@@ -21,11 +20,27 @@ export function AppShell({
   showAmbientGlow?: boolean;
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const {
+    isOpen: profileModalOpen,
+    open: openProfileModal,
+    close: closeProfileModal,
+  } = useProfileModalControl();
+  const { profile } = useUserProfile();
 
   return (
-    <div className={cn("relative flex min-h-screen flex-col overflow-hidden bg-surface text-on-surface", className)}>
+    <div
+      className={cn(
+        "relative flex min-h-screen flex-col overflow-hidden bg-surface text-on-surface",
+        className,
+      )}
+    >
       {showAmbientGlow && <div className="ambient-glow" />}
-      <HistoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <HistoryDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onOpenProfile={openProfileModal}
+      />
+      <ProfileModal open={profileModalOpen} onClose={closeProfileModal} />
 
       <header className="sticky top-0 z-30 mx-auto flex h-16 w-full max-w-container-max flex-shrink-0 items-center justify-between border-b border-outline-variant/10 bg-surface/80 px-gutter backdrop-blur-md">
         <button
@@ -52,8 +67,19 @@ export function AppShell({
           </Link>
         )}
 
-        <button className="h-9 w-9 overflow-hidden rounded-full border border-outline-variant/30 transition-opacity hover:opacity-80">
-          <img src={AVATAR} alt="Avatar utilisateur" className="h-full w-full object-cover" />
+        <button
+          type="button"
+          onClick={openProfileModal}
+          title={`Profil : ${profile.name} (Cliquez pour changer de nom et de photo)`}
+          className="group relative h-9 w-9 shrink-0 overflow-hidden rounded-full border border-outline-variant/30 ring-2 ring-transparent transition-all hover:ring-primary/60 hover:scale-105 active:scale-95"
+        >
+          <img
+            src={profile.avatar}
+            alt={profile.name}
+            className="h-full w-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+          <span className="sr-only">Modifier mon profil</span>
         </button>
       </header>
 

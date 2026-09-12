@@ -10,6 +10,16 @@
  */
 
 @theme {
+  /* Container max-widths */
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 36rem;
+  --container-2xl: 42rem;
+  --container-3xl: 48rem;
+  --container-4xl: 56rem;
+
   /* Spacing scale */
   --spacing-base: 4px;
   --spacing-xs: 8px;
@@ -223,11 +233,7 @@
   transform: translate(-50%, -50%);
   width: 60vw;
   height: 60vh;
-  background: radial-gradient(
-    circle,
-    rgba(128, 131, 255, 0.08) 0%,
-    rgba(11, 19, 38, 0) 70%
-  );
+  background: radial-gradient(circle, rgba(128, 131, 255, 0.08) 0%, rgba(11, 19, 38, 0) 70%);
   pointer-events: none;
   z-index: 0;
 }

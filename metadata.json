@@ -1,0 +1,6 @@
+{
+  "name": "Paris AI",
+  "description": "Assistant intelligent pour la recherche, la création d'images et l'analyse de fichiers",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
